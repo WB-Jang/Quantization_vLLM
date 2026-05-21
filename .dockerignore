@@ -1,0 +1,26 @@
+# Virtual environment & build artifacts
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Secrets — injected at runtime via env_file, never baked into the image
+.env
+
+# Large output files
+quantized_models/
+*.tar.gz
+*.log
+
+# Version control
+.git/
+.github/
+
+# IDE / OS
+.vscode/
+.idea/
+*.DS_Store

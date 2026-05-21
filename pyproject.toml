@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "quantization-vllm"
+version = "0.1.0"
+description = "LLM quantization pipeline with multiple backends and vLLM serving"
+authors = ["eeariorie <eeariorie2@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+torch = { version = ">=2.4.0,<3.0.0", source = "pytorch-cuda" }
+vllm = ">=0.8.0"
+transformers = ">=4.47.0"
+datasets = ">=2.14.0"
+accelerate = ">=0.34.0"
+huggingface-hub = ">=0.24.0"
+python-dotenv = ">=1.0.0"
+tqdm = ">=4.66.0"
+runpod = ">=1.7.0"
+paramiko = ">=3.4.0"
+autoawq = ">=0.2.7"
+gptqmodel = ">=2.0.0"
+bitsandbytes = ">=0.44.0"
+llmcompressor = ">=0.4.0"
+aqlm = { version = ">=1.1.6", extras = ["gpu"] }
+# SqueezeLLM: install manually from source
+# squeezellm = { git = "https://github.com/SqueezeAILab/SqueezeLLM.git" }
+
+[[tool.poetry.source]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu124"
+priority = "explicit"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

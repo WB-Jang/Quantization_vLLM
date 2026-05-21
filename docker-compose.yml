@@ -1,0 +1,56 @@
+x-gpu-base: &gpu-base
+  build:
+    context: .
+    dockerfile: Dockerfile
+  image: quantization-vllm:latest
+  env_file: .env
+  volumes:
+    - ./quantized_models:/app/quantized_models
+  ipc: host          # shared memory for CUDA tensors
+  shm_size: "8gb"
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+
+services:
+  # ── Quantization ──────────────────────────────────────────────────────────
+  # Default: awq + gptq + fp8 locally. Override with METHODS env var.
+  #   METHODS="awq fp8" docker compose up quantize
+  quantize:
+    <<: *gpu-base
+    command: >
+      poetry run python main.py
+      --skip-runpod
+      --methods ${METHODS:-awq gptq fp8}
+
+  # ── vLLM Inference API ────────────────────────────────────────────────────
+  # Serves an already-quantized model via OpenAI-compatible HTTP API.
+  # Default method: awq. Override with METHOD env var.
+  #   METHOD=gptq docker compose up serve
+  serve:
+    <<: *gpu-base
+    ports:
+      - "${SERVE_PORT:-8000}:8000"
+    command: >
+      poetry run python main.py
+      --skip-runpod
+      --serve ${METHOD:-awq}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+  # ── Benchmark (quantize + benchmark in one shot) ──────────────────────────
+  benchmark:
+    <<: *gpu-base
+    command: >
+      poetry run python main.py
+      --skip-runpod
+      --methods ${METHODS:-awq gptq fp8}
+      --benchmark

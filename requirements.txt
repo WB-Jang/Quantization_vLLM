@@ -1,0 +1,27 @@
+# Core
+vllm>=0.8.0
+torch>=2.4.0
+transformers>=4.47.0
+datasets>=2.14.0
+accelerate>=0.34.0
+huggingface_hub>=0.24.0
+python-dotenv>=1.0.0
+tqdm>=4.66.0
+
+# RunPod & SSH
+runpod>=1.7.0
+paramiko>=3.4.0
+
+# Weight-only quantization
+autoawq>=0.2.7
+gptqmodel>=2.0.0
+bitsandbytes>=0.44.0
+
+# Weight+Activation quantization (FP8, INT8 W8A8)
+llmcompressor>=0.4.0
+
+# AQLM
+aqlm[gpu]>=1.1.6
+
+# SqueezeLLM (install from source: pip install git+https://github.com/SqueezeAILab/SqueezeLLM)
+# squeezellm
