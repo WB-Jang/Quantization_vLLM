@@ -18,6 +18,7 @@ build/
 
 # Large model outputs
 quantized_models/
+hf_cache/
 *.bin
 *.safetensors
 *.gguf
