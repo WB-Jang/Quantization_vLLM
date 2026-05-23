@@ -29,7 +29,11 @@ WORKDIR /app
 
 # Dependency layer — rebuilt only when pyproject.toml or poetry.lock changes
 COPY pyproject.toml poetry.lock* ./
-RUN poetry install --no-root \
+# gptqmodel needs torch present at build time; install it after the venv has torch
+RUN poetry install --no-root --without gptq \
+    && poetry run pip install --no-build-isolation "gptqmodel>=2.0.0" \
+    && CUDA_VER=$(poetry run python -c "import torch; print(torch.version.cuda.replace('.',''))") \
+    && poetry run pip install --index-url "https://download.pytorch.org/whl/cu${CUDA_VER}" torchvision \
     && rm -rf "$POETRY_CACHE_DIR"
 
 # Source code
