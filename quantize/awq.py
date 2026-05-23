@@ -23,6 +23,7 @@ class AWQQuantizer(BaseQuantizer):
             self.cfg.model_id,
             token=self.cfg.hf_token,
             low_cpu_mem_usage=True,
+            max_memory={0: "7GiB", "cpu": "48GiB"},
         )
         tokenizer = AutoTokenizer.from_pretrained(
             self.cfg.model_id,
