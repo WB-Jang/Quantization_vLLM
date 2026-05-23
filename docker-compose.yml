@@ -6,6 +6,7 @@ x-gpu-base: &gpu-base
   env_file: .env
   volumes:
     - ./quantized_models:/app/quantized_models
+    - ./hf_cache:/app/hf_cache
   ipc: host          # shared memory for CUDA tensors
   shm_size: "8gb"
   deploy:
