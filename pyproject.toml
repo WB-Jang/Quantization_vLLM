@@ -17,12 +17,15 @@ tqdm = ">=4.66.0"
 runpod = ">=1.7.0"
 paramiko = ">=3.4.0"
 autoawq = ">=0.2.7"
-gptqmodel = ">=2.0.0"
 bitsandbytes = ">=0.44.0"
 llmcompressor = ">=0.4.0"
 aqlm = { version = ">=1.1.6", extras = ["gpu"] }
 # SqueezeLLM: install manually from source
 # squeezellm = { git = "https://github.com/SqueezeAILab/SqueezeLLM.git" }
+
+# gptqmodel requires torch as a build dep — installed via pip --no-build-isolation in Dockerfile
+[tool.poetry.group.gptq.dependencies]
+gptqmodel = ">=2.0.0"
 
 [[tool.poetry.source]]
 name = "pytorch-cuda"
